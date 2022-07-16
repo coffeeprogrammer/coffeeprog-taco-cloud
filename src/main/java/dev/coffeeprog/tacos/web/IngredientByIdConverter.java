@@ -8,7 +8,9 @@ import java.util.Map;
 
 import dev.coffeeprog.tacos.Ingredient;
 import dev.coffeeprog.tacos.Ingredient.Type;
+import org.springframework.stereotype.Component;
 
+@Component
 public class IngredientByIdConverter implements Converter<String, Ingredient> {
 
     private Map<String, Ingredient> ingredientMap = new HashMap<>();
