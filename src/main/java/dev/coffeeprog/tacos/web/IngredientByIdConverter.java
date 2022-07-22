@@ -1,6 +1,8 @@
 package dev.coffeeprog.tacos.web;
 
 import dev.coffeeprog.tacos.Ingredient;
+import dev.coffeeprog.tacos.data.IngredientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 
 import java.util.HashMap;
@@ -13,8 +15,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class IngredientByIdConverter implements Converter<String, Ingredient> {
 
-    private Map<String, Ingredient> ingredientMap = new HashMap<>();
+    //private Map<String, Ingredient> ingredientMap = new HashMap<>();
+    private IngredientRepository ingredientRepo;
 
+    /*
     public IngredientByIdConverter() {
         ingredientMap.put("FLTO",
                 new Ingredient("FLTO", "Flour Tortilla", Type.WRAP));
@@ -37,9 +41,16 @@ public class IngredientByIdConverter implements Converter<String, Ingredient> {
         ingredientMap.put("SRCR",
                 new Ingredient("SRCR", "Sour Cream", Type.SAUCE));
     }
+    */
+
+    @Autowired
+    public IngredientByIdConverter(IngredientRepository ingredientRepo) {
+        this.ingredientRepo = ingredientRepo;
+    }
 
     @Override
     public Ingredient convert(String id) {
-        return ingredientMap.get(id);
+        //return ingredientMap.get(id);
+        return ingredientRepo.findById(id).orElse(null);
     }
 }
