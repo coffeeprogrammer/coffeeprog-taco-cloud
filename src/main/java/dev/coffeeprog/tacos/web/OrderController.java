@@ -1,6 +1,7 @@
 package dev.coffeeprog.tacos.web;
 
 import dev.coffeeprog.tacos.TacoOrder;
+import dev.coffeeprog.tacos.data.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -18,6 +19,11 @@ import javax.validation.Valid;
 @SessionAttributes("tacoOrder")
 public class OrderController {
 
+    private OrderRepository orderRepo;
+    public OrderController(OrderRepository orderRepo) {
+        this.orderRepo = orderRepo;
+    }
+
     @GetMapping("/current")
     public String orderForm() {
         return "orderForm";
@@ -29,7 +35,8 @@ public class OrderController {
         if (errors.hasErrors()) {
             return "orderForm";
         }
-        log.info("Order submitted: {}", order);
+        //log.info("Order submitted: {}", order);
+        orderRepo.save(order);
         sessionStatus.setComplete();
         return "redirect:/";
     }
